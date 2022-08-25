@@ -1,0 +1,31 @@
+{
+    "name": "hwacom/personnel-info",
+    "description": "HRepository Package",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hwacom\\EIPLogin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "TzuHsuan",
+            "email": "kuanmei168@gmail.com"
+        }
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Hwacom\\PersonnelInfo\\PersonnelInfoServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+    },
+    "require": {
+    }
+}
