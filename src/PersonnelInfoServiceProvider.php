@@ -13,6 +13,13 @@ class PersonnelInfoServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__.'/publishable/config/HRConnections.php' => config_path('database.php'),
+        ], 'config');
+
+        $this->publishes([
+            __DIR__.'/publishable/Repositories/Common/EmployeeRepository.php' => app_path('Repositories/Common/EmployeeRepository.php'),
+        ]);
     }
 
     /**
@@ -23,12 +30,8 @@ class PersonnelInfoServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/config/HRConnections.php',
+            __DIR__.'/publishable/config/HRConnections.php',
             'database.connections'
         );
-    }
-
-    private function registerPublishables()
-    {
     }
 }

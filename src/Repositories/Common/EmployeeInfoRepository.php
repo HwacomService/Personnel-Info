@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Repositories\Common;
+namespace Hwacom\PersonnelInfo\Repositories\Common;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use Illuminate\Support\Arr;
 
-class HRepository extends Model
+class EmployeeInfoRepository extends Model
 {
     protected $user;
 

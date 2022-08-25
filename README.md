@@ -1,8 +1,8 @@
 # Personnel Info Package via Hwacom HRepository
 
 <a href="https://github.com/mozielin/Client-SSO/actions"><img src="https://github.com/mozielin/Client-SSO/workflows/PHP Composer/badge.svg" alt="Build Status"></a>
-[![Total Downloads](http://poser.pugx.org/hwacom/client-sso/downloads)](https://packagist.org/packages/hwacom/client-sso)
-[![Latest Stable Version](http://poser.pugx.org/hwacom/client-sso/v)](https://packagist.org/packages/hwacom/client-sso)
+[![Total Downloads](http://poser.pugx.org/hwacom/Personnel-Info/downloads)](https://packagist.org/packages/hwacom/client-sso)
+[![Latest Stable Version](http://poser.pugx.org/hwacom/Personnel-Info/v)](https://packagist.org/packages/hwacom/client-sso)
 ## 前言
 
 先安裝laravel breeze
