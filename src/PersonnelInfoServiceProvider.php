@@ -16,10 +16,6 @@ class PersonnelInfoServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/publishable/config/HRConnections.php' => config_path('database.php'),
         ], 'config');
-
-        $this->publishes([
-            __DIR__.'/publishable/Repositories/Common/EmployeeRepository.php' => app_path('Repositories/Common/EmployeeRepository.php'),
-        ]);
     }
 
     /**
@@ -33,5 +29,9 @@ class PersonnelInfoServiceProvider extends ServiceProvider
             __DIR__.'/publishable/config/HRConnections.php',
             'database.connections'
         );
+
+        $this->commands([
+            PersonnelCommand::class,
+        ]);
     }
 }

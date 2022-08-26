@@ -1,6 +1,6 @@
 <?php
 
-namespace APP\Repositories\Common;
+namespace App\Repositories\Common;
 
 use Hwacom\PersonnelInfo\Repositories\Common\EmployeeInfoRepository;
 
