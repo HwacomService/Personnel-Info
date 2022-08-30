@@ -1,6 +1,6 @@
 <?php
 
-namespace Hwacom\EIPLogin\Services;
+namespace Hwacom\PersonnelInfo\Services;
 
 
 use App\Models\HR\Employee;
