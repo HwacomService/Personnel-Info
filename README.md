@@ -1,11 +1,10 @@
 # Personnel Info Package via Hwacom HRepository
 
-<a href="https://github.com/mozielin/Client-SSO/actions"><img src="https://github.com/mozielin/Client-SSO/workflows/PHP Composer/badge.svg" alt="Build Status"></a>
-[![Total Downloads](http://poser.pugx.org/hwacom/Personnel-Info/downloads)](https://packagist.org/packages/hwacom/client-sso)
-[![Latest Stable Version](http://poser.pugx.org/hwacom/Personnel-Info/v)](https://packagist.org/packages/hwacom/client-sso)
+[![Total Downloads](http://poser.pugx.org/hwacom/Personnel-Info/downloads)](https://packagist.org/packages/hwacom/personnel-info)
+[![Latest Stable Version](http://poser.pugx.org/hwacom/Personnel-Info/v)](https://packagist.org/packages/hwacom/personnel-info)
 ## 前言
 
-要使用EIP後端登入，請先確定User表格式與EIP後端相同
+要使用同步user，請先確定Users表格式與EIP相同。
 
 ## 安裝說明
 
@@ -23,8 +22,7 @@ Composer安裝完後要需要修改 `config/app.php` 找到 providers 區域並�
 
 ## Config設定檔發佈 
 
-用下列指令會建立eip.php設定檔，需要在 `.env` 檔案中增加設定，
-同時建立出eip_login語系檔
+用下列指令會建立HR_DB設定檔，需要在 `.env` 檔案中增加設定。
 
 ```bash
 php artisan vendor:publish

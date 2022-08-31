@@ -16,6 +16,7 @@ class UpdateUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('enumber', 20)->nullable()->unique()->comment('員工編號');
             $table->string('email')->nullable()->comment('電子郵件')->change();
+            $table->string('password')->nullable()->change();
             $table->string('mobile', 10)->nullable()->comment('手機');
             $table->string('phone_area_code', 10)->nullable()->comment('電話區碼');
             $table->string('phone', 15)->nullable()->comment('公司電話');
