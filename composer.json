@@ -27,5 +27,7 @@
     "require-dev": {
     },
     "require": {
+        "hwacom/entrust": "^1.0",
+        "doctrine/dbal": "^3.4"
     }
 }

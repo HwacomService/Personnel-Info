@@ -57,6 +57,22 @@ class PersonnelCommand extends Command
         } else {
             $this->error('檔案已存在!');
         }
+
+        if ($this->confirm("需要產生Update Users Table的Migration嗎? [Yes|no]", "Yes")) {
+            $this->info("準備產生User Update Migration");
+            //建立UpdateUserMigration
+            $migration = base_path('database\migrations\2022_08_31_000000_update_users_table.php');
+            $output    = file_get_contents(__DIR__ . '/stubs/UpdateUserMigration.stub');
+            if (!file_exists($migration)) {
+                if ($fs = fopen($migration, 'x')) {
+                    fwrite($fs, $output);
+                    fclose($fs);
+                    usleep(500000);
+                }
+            } else {
+                $this->error('檔案已存在!');
+            }
+        }
         $this->info("------完成------");
     }
 }

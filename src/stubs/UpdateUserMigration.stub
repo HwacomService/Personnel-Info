@@ -1,0 +1,67 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class UpdateUsersTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('enumber', 20)->nullable()->unique()->comment('員工編號');
+            $table->string('email')->nullable()->comment('電子郵件')->change();
+            $table->string('mobile', 10)->nullable()->comment('手機');
+            $table->string('phone_area_code', 10)->nullable()->comment('電話區碼');
+            $table->string('phone', 15)->nullable()->comment('公司電話');
+            $table->string('ext', 10)->nullable()->comment('分機');
+            $table->string('department_a')->nullable()->comment('處別');
+            $table->string('department_b')->nullable()->comment('部門');
+            $table->string('department_c')->nullable()->comment('組別');
+            $table->string('position')->nullable()->comment('職位');
+            $table->string('dept_code')->nullable()->comment('部門CODE');
+            $table->bigInteger('leader_id')->nullable()->unsigned()->comment('主管ID');
+            $table->bigInteger('secretary_id')->nullable()->unsigned()->comment('秘書ID');
+            $table->Integer('company_status')->default(2)->comment('0:華電人員,1:外部人員,2:初始');
+            $table->Integer('work_status')->default(2)->comment('0:離職,1:在職,2:初始');
+            $table->timestamp('login_at')->nullable();
+            $table->string('login_ip')->nullable()->comment('登入ip');
+            $table->Integer('status')->default(0)->comment('0:未開通,1:已開通');
+            $table->index('dept_code');
+            $table->index('leader_id');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('enumber');
+            $table->dropColumn('mobile');
+            $table->dropColumn('phone_area_code');
+            $table->dropColumn('phone');
+            $table->dropColumn('ext');
+            $table->dropColumn('department_a');
+            $table->dropColumn('department_b');
+            $table->dropColumn('department_c');
+            $table->dropColumn('position');
+            $table->dropColumn('dept_code');
+            $table->dropColumn('leader_id');
+            $table->dropColumn('secretary_id');
+            $table->dropColumn('company_status');
+            $table->dropColumn('work_status');
+            $table->dropColumn('login_at');
+            $table->dropColumn('login_ip');
+            $table->dropColumn('status');
+        });
+    }
+}
