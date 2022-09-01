@@ -66,4 +66,8 @@ HR_DB_PASSWORD =
 ```
 php artisan personnel:install
 ```
+如有產生Update User Migration
+```
+php artisan migrate
+```
 

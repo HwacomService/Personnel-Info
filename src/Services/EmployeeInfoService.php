@@ -7,6 +7,7 @@ use App\Models\HR\Employee;
 use Hwacom\PersonnelInfo\Repositories\Common\EmployeeInfoRepository;
 use App\Models\User;
 use Hwacom\ClientSso\Services\SSOService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class EmployeeInfoService
@@ -21,9 +22,10 @@ class EmployeeInfoService
      * 同步User資料-用工號去HR資料庫抓資料回來update or create
      *
      * @param $username  *工號
+     * @param $data['ip']
      * @return mixed
      */
-    public function FetchUser($username)
+    public function FetchUser($username, $data)
     {
         $depa     = null;
         $depb     = null;
@@ -82,6 +84,8 @@ class EmployeeInfoService
                         'company_status'  => 0,
                         'work_status'     => $userData->HWA_STATUS,
                         'status'          => 1,
+                        'login_at'        => Carbon::now(),
+                        'login_ip'        => $data['ip'] ?? null,
                     ]
                 );
 
