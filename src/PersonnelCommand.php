@@ -2,10 +2,9 @@
 
 namespace Hwacom\PersonnelInfo;
 
-use App\Notifications\News\ArticlePublishNotification;
-use App\Repositories\News\ArticleRepository;
-use App\Services\News\ArticleService;
+
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 
 class PersonnelCommand extends Command
 {
@@ -30,6 +29,10 @@ class PersonnelCommand extends Command
      */
     public function handle()
     {
+        //檢查資料夾是否存在 (不存在則建立資料夾)
+        (new Filesystem)->ensureDirectoryExists(base_path('Repositories/Common'));
+        (new Filesystem)->ensureDirectoryExists(base_path('Models/HR'));
+
         $this->info("準備產生EmployeeRepository(HRepository)");
         //建立EmployeeRepository(HRepository)
         $file   = app_path('Repositories\Common\EmployeeRepository.php');
