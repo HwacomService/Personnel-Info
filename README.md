@@ -70,4 +70,13 @@ php artisan personnel:install
 ```
 php artisan migrate
 ```
+調整User Model
+```
+/**
+ * The attributes that are mass assignable.
+ *
+ * @var array
+ */
+protected $guarded = [];
+```
 
