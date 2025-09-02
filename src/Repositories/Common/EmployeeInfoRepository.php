@@ -15,34 +15,36 @@ class EmployeeInfoRepository extends Model
         // $this->user = $user;
     }
 
-    public static function DeptName($dept){
+    public static function DeptName($dept)
+    {
         $query = 'SELECT DEP_NAME_ACT,DEP_NAME,DEPT_BOSS,DEP_CODE_FLOW FROM ORG_DEPART_V WHERE IS_USE = "Y" AND DEP_CODE = '."'".$dept."'";
 
         $deps = \DB::connection('hr')->select(\DB::raw($query));
 
-        if (isset($deps[0])){
+        if (isset($deps[0])) {
 
         }
 
         return $deps;
     }
 
-    public static function DeptInfo($dept){
+    public static function DeptInfo($dept)
+    {
         $query = 'SELECT DEP_NAME_ACT,DEP_NAME,DEPT_BOSS,DEP_CODE_FLOW,LAYER_CODE FROM ORG_DEPART_V WHERE IS_USE = "Y" AND DEP_CODE = '."'".$dept."'";
 
         $deps = \DB::connection('hr')->select(\DB::raw($query));
 
-        if (isset($deps[0])){
+        if (isset($deps[0])) {
             $dept_top = self::DeptName($deps[0]->DEP_CODE_FLOW);
 
             $data = [
-                'leader'        => explode('-',$deps[0]->DEPT_BOSS),
+                'leader'        => explode('-', $deps[0]->DEPT_BOSS),
                 'dep_name'      => $deps[0]->DEP_NAME,
-                'dep_top'       => isset($dept_top[0])?$dept_top[0]->DEP_NAME:'',
+                'dep_top'       => isset($dept_top[0]) ? $dept_top[0]->DEP_NAME : '',
                 'dep_top_code'  => $deps[0]->DEP_CODE_FLOW,
-                'layer'         => $deps[0]->LAYER_CODE
+                'layer'         => $deps[0]->LAYER_CODE,
             ];
-        }else{
+        } else {
             return '';
         }
         return $data;
@@ -54,51 +56,53 @@ class EmployeeInfoRepository extends Model
      * @param $dept
      * @return array|string
      */
-    public static function getDeptInfo($dept){
+    public static function getDeptInfo($dept)
+    {
         $query = 'SELECT DEP_NAME_ACT,DEP_NAME,DEPT_BOSS,DEP_CODE_FLOW,DEP_CODE_ACT,LAYER_CODE FROM ORG_DEPART_V WHERE IS_USE = "Y" AND DEP_CODE = '."'".$dept."'";
 
         $deps = \DB::connection('hr')->select(\DB::raw($query));
 
-        if (isset($deps[0])){
-            if($deps[0]->LAYER_CODE == 70){
+        if (isset($deps[0])) {
+            if ($deps[0]->LAYER_CODE == 70) {
                 $dept_top = self::DeptName($deps[0]->DEP_CODE_FLOW);
 
                 $data = [
-                    'leader'        => explode('-',$deps[0]->DEPT_BOSS),
+                    'leader'        => explode('-', $deps[0]->DEPT_BOSS),
                     'dep_name'      => $deps[0]->DEP_NAME,
-                    'dep_top'       => isset($dept_top[0])?$dept_top[0]->DEP_NAME:'',
+                    'dep_top'       => isset($dept_top[0]) ? $dept_top[0]->DEP_NAME : '',
                     'dep_top_code'  => $deps[0]->DEP_CODE_FLOW,
-                    'layer'         => $deps[0]->LAYER_CODE
+                    'layer'         => $deps[0]->LAYER_CODE,
                 ];
-            }else{
+            } else {
                 $dept_top = self::DeptName($deps[0]->DEP_CODE_ACT);
 
                 $data = [
-                    'leader'        => explode('-',$deps[0]->DEPT_BOSS),
+                    'leader'        => explode('-', $deps[0]->DEPT_BOSS),
                     'dep_name'      => $deps[0]->DEP_NAME,
-                    'dep_top'       => isset($dept_top[0])?$dept_top[0]->DEP_NAME:'',
+                    'dep_top'       => isset($dept_top[0]) ? $dept_top[0]->DEP_NAME : '',
                     'dep_top_code'  => $deps[0]->DEP_CODE_ACT,
-                    'layer'         => $deps[0]->LAYER_CODE
+                    'layer'         => $deps[0]->LAYER_CODE,
                 ];
             }
 
-        }else{
+        } else {
             return [];
         }
 
         return $data;
     }
 
-    public static function GetTroops($empid){
+    public static function GetTroops($empid)
+    {
         $data = null;
         $query = 'SELECT EMP_ID,DEP_CODE_FLOW FROM HWA_EMP_PROFILE WHERE EMP_ID = '."'".$empid."'";
         $emp = \DB::connection('hr')->select(\DB::raw($query));
-        if (isset($emp[0])){
+        if (isset($emp[0])) {
             $dept = self::DeptInfo($emp[0]->DEP_CODE_FLOW);
         }
 
-        if (isset($dept['leader'])){
-            if ($dept['leader'][0].'-'.$dept['leader'][1] == $empid){
+        if (isset($dept['leader'])) {
+            if ($dept['leader'][0].'-'.$dept['leader'][1] == $empid) {
                 $query = 'SELECT DEP_CODE,DEP_NAME_FLOW,DEP_NAME,DEPT_BOSS,DEP_CODE_FLOW,LAYER_CODE FROM ORG_DEPART_V WHERE IS_USE = "Y" AND DEP_CODE_FLOW = '."'".$emp[0]->DEP_CODE_FLOW."'";
                 $troops = \DB::connection('hr')->select(\DB::raw($query));
 
@@ -110,7 +114,8 @@ class EmployeeInfoRepository extends Model
     }
 
     //用工號搜尋底下部門(回傳陣列)
-    public function GetManagers($type,$empid){//type = DEP_NAME 或 DER_CODE
+    public function GetManagers($type, $empid) //type = DEP_NAME 或 DER_CODE
+    {
         $manage = [];
 
         $query = 'SELECT ORG_DEPART_V.'.$type.' FROM HWA_EMP_PROFILE JOIN ORG_DEPART_V ON HWA_EMP_PROFILE.PER_SERIL_NO = ORG_DEPART_V.BOSS_SERIL_NO WHERE ORG_DEPART_V.LAYER_CODE <> "55" AND HWA_EMP_PROFILE.EMP_ID = '."'".$empid."'";
@@ -125,14 +130,15 @@ class EmployeeInfoRepository extends Model
     }
 
     //用工號搜尋底下部門
-    public function GetManagerE($layer,$empid){//69全部，70組，60部，50處，20總
+    public function GetManagerE($layer, $empid) //69全部，70組，60部，50處，20總
+    {
         $data = [];
         $dept = null;
         $query = 'SELECT EMP_ID,DEP_CODE_FLOW FROM HWA_EMP_PROFILE WHERE EMP_ID = '."'".$empid."'";
 
         $emp = \DB::connection('hr')->select(\DB::raw($query));
 
-        if (isset($emp[0])){
+        if (isset($emp[0])) {
             $dept = $emp[0]->DEP_CODE_FLOW;
         }
 
@@ -142,14 +148,14 @@ class EmployeeInfoRepository extends Model
         //dd($deps[0]);
         $i = 1;
 
-        if ($layer == 69){
-            while(isset($deps[0])){
-                $leader = explode('-',$deps[0]->DEPT_BOSS);
-                $leader_a = isset($leader[0])?$leader[0].'-':'';
-                $leader_b = isset($leader[1])?$leader[1]:'';
-                if ($deps[0]->LAYER_CODE != 55 && $deps[0]->LAYER_CODE != 54 && $deps[0]->LAYER_CODE != 10){
+        if ($layer == 69) {
+            while (isset($deps[0])) {
+                $leader = explode('-', $deps[0]->DEPT_BOSS);
+                $leader_a = isset($leader[0]) ? $leader[0].'-' : '';
+                $leader_b = $leader[1] ?? '';
+                if ($deps[0]->LAYER_CODE != 55 && $deps[0]->LAYER_CODE != 54 && $deps[0]->LAYER_CODE != 10) {
                     $lnm = $this->getLayerName($deps[0]->LAYER_CODE);
-                    $data[$lnm] =[
+                    $data[$lnm] = [
                         'leader'        => $leader_a.$leader_b,
                         'leader_name'   => $deps[0]->DEPT_BOSS,
                         'dep_name'      => $deps[0]->DEP_NAME,
@@ -165,14 +171,14 @@ class EmployeeInfoRepository extends Model
 
                 $i++;
             }
-        }else{
-            while(isset($deps[0])){
+        } else {
+            while (isset($deps[0])) {
 
-                $leader = explode('-',$deps[0]->DEPT_BOSS);
-                $leader_a = isset($leader[0])?$leader[0].'-':'';
-                $leader_b = isset($leader[1])?$leader[1]:'';
-                if ($deps[0]->LAYER_CODE == $layer){
-                    $data =[
+                $leader = explode('-', $deps[0]->DEPT_BOSS);
+                $leader_a = isset($leader[0]) ? $leader[0].'-' : '';
+                $leader_b = $leader[1] ?? '';
+                if ($deps[0]->LAYER_CODE == $layer) {
+                    $data = [
                         'leader'        => $leader_a.$leader_b,
                         'leader_name'   => $deps[0]->DEPT_BOSS,
                         'dep_name'      => $deps[0]->DEP_NAME,
@@ -194,14 +200,15 @@ class EmployeeInfoRepository extends Model
     }
 
     //用User ID 搜尋底下部門
-    public function GetManager($layer,$id){//69全部，80子公司組類，70組，60部，50處，20總
+    public function GetManager($layer, $id) //69全部，80子公司組類，70組，60部，50處，20總
+    {
         $data = null;
         $user = User::find($id);
 
         $query = 'SELECT EMP_ID,DEP_CODE_FLOW FROM HWA_EMP_PROFILE WHERE EMP_ID = '."'".$user->enumber."'";
 
         $emp = \DB::connection('hr')->select(\DB::raw($query));
-        if (isset($emp[0])){
+        if (isset($emp[0])) {
             $dept = $emp[0]->DEP_CODE_FLOW;
         }
 
@@ -211,15 +218,15 @@ class EmployeeInfoRepository extends Model
         //dd($deps[0]);
         $i = 1;
 
-        if ($layer == 69){
-            while(isset($deps[0])){
-                if (!empty($deps[0]->DEPT_BOSS)){
-                    $leader = explode('-',$deps[0]->DEPT_BOSS);
-                    $leader_a = isset($leader[0])?$leader[0].'-':'';
-                    $leader_b = isset($leader[1])?$leader[1]:'';
-                    if ($deps[0]->LAYER_CODE != 55 && $deps[0]->LAYER_CODE != 54 && $deps[0]->LAYER_CODE != 10){
+        if ($layer == 69) {
+            while (isset($deps[0])) {
+                if (!empty($deps[0]->DEPT_BOSS)) {
+                    $leader = explode('-', $deps[0]->DEPT_BOSS);
+                    $leader_a = isset($leader[0]) ? $leader[0].'-' : '';
+                    $leader_b = $leader[1] ?? '';
+                    if ($deps[0]->LAYER_CODE != 55 && $deps[0]->LAYER_CODE != 54 && $deps[0]->LAYER_CODE != 10) {
                         $lnm = $this->getLayerName($deps[0]->LAYER_CODE);
-                        $data[$lnm] =[
+                        $data[$lnm] = [
                             'dep_code'      => $deps[0]->DEP_CODE,
                             'leader'        => $leader_a.$leader_b,
                             'leader_name'   => $deps[0]->DEPT_BOSS,
@@ -236,15 +243,15 @@ class EmployeeInfoRepository extends Model
                     $i++;
                 }
             }
-        }else{
-            while(isset($deps[0])){
+        } else {
+            while (isset($deps[0])) {
 
-                $leader = explode('-',$deps[0]->DEPT_BOSS);
-                $leader_a = isset($leader[0])?$leader[0].'-':'';
-                $leader_b = isset($leader[1])?$leader[1]:'';
-                if ($deps[0]->LAYER_CODE == $layer){
+                $leader = explode('-', $deps[0]->DEPT_BOSS);
+                $leader_a = isset($leader[0]) ? $leader[0].'-' : '';
+                $leader_b = $leader[1] ?? '';
+                if ($deps[0]->LAYER_CODE == $layer) {
 
-                    $data =[
+                    $data = [
                         'dep_code'      => $deps[0]->DEP_CODE,
                         'leader'        => $leader_a.$leader_b,
                         'leader_name'   => $deps[0]->DEPT_BOSS,
@@ -269,9 +276,10 @@ class EmployeeInfoRepository extends Model
 
     }
 
-    private function getLayerName($layer){
+    private function getLayerName($layer)
+    {
         $res = null;
-        switch ($layer){
+        switch ($layer) {
             case 20:
                 $res = 'gmd';
                 break;
@@ -292,12 +300,13 @@ class EmployeeInfoRepository extends Model
         return $res;
     }
 
-    public function GetEmployee($enumber){
+    public function GetEmployee($enumber)
+    {
         $data = null;
         $query = 'SELECT * FROM HWA_EMP_PROFILE WHERE EMP_ID = '."'".$enumber."'";
         $employee = \DB::connection('hr')->select(\DB::raw($query));
 
-        return $employee?$employee[0]:null;
+        return $employee ? $employee[0] : null;
     }
 
     /**

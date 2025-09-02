@@ -2,7 +2,6 @@
 
 namespace Hwacom\PersonnelInfo;
 
-
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
@@ -30,8 +29,8 @@ class PersonnelCommand extends Command
     public function handle()
     {
         //檢查資料夾是否存在 (不存在則建立資料夾)
-        (new Filesystem)->ensureDirectoryExists(base_path('app/Repositories/Common'));
-        (new Filesystem)->ensureDirectoryExists(base_path('app/Models/HR'));
+        (new Filesystem())->ensureDirectoryExists(base_path('app/Repositories/Common'));
+        (new Filesystem())->ensureDirectoryExists(base_path('app/Models/HR'));
 
         $this->info("準備產生EmployeeRepository(HRepository)");
         //建立EmployeeRepository(HRepository)

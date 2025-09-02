@@ -2,7 +2,6 @@
 
 namespace Hwacom\PersonnelInfo\Services;
 
-
 use App\Models\HR\Employee;
 use Hwacom\PersonnelInfo\Repositories\Common\EmployeeInfoRepository;
 use App\Models\User;
@@ -12,6 +11,9 @@ use Illuminate\Support\Facades\Hash;
 
 class EmployeeInfoService
 {
+    protected SSOService $SSOService;
+    protected EmployeeInfoRepository $EmployeeInfoRepository;
+
     public function __construct()
     {
         $this->SSOService             = new SSOService();
@@ -40,8 +42,8 @@ class EmployeeInfoService
                 if ($userData->HWA_STATUS == 1) {
                     $deps      = $this->EmployeeInfoRepository->GetManagerE(69, $userData->EMP_ID);
                     $dept      = $this->EmployeeInfoRepository->DeptInfo($userData->DEP_CODE_FLOW);
-                    $leader_a  = isset($dept['leader'][0]) ? $dept['leader'][0] : '';
-                    $leader_b  = isset($dept['leader'][1]) ? $dept['leader'][1] : '';
+                    $leader_a  = $dept['leader'][0] ?? '';
+                    $leader_b  = $dept['leader'][1] ?? '';
                     $leader_id = User::where('enumber', $leader_a . '-' . $leader_b)->pluck('id')->first();
                     if ($dept['layer']) {//判斷處部
                         switch ($dept['layer']) {//69全部，70組，60部，50處，20總
@@ -100,4 +102,3 @@ class EmployeeInfoService
     }
 
 }
-
